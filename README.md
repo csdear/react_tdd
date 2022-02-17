@@ -1,4 +1,4 @@
-# react_base
+# react_tdd
 
 Im just a seed, water me.  
 Use this as a basis for react projects. Includes Eslint, webpack, babel, react, react-dom any others.

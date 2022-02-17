@@ -7,7 +7,7 @@ export const App = () => {
   const date = "2020-01-01";
   return (
     <div className={styles.main}>
-      <h2>Welcome to React_BASE</h2>
+      <h2>Welcome to react_tdd</h2>
       <Date dateString={date} />
     </div>
   );

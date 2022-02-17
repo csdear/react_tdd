@@ -1,23 +1,23 @@
 {
-  "name": "react_base",
+  "name": "react_tdd",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "react-scripts test",
     "start": "webpack serve --config webpack.config.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/csdear/react_base.git"
+    "url": "git+https://github.com/csdear/react_tdd.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/csdear/react_base/issues"
+    "url": "https://github.com/csdear/react_tdd/issues"
   },
-  "homepage": "https://github.com/csdear/react_base#readme",
+  "homepage": "https://github.com/csdear/react_tdd#readme",
   "devDependencies": {
     "@babel/core": "^7.17.4",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
@@ -34,8 +34,11 @@
     "webpack-dev-server": "^4.7.4"
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.3",
     "date-fns": "^2.28.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-scripts": "^5.0.0"
   }
 }

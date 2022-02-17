@@ -5,7 +5,7 @@ import { App, App2 } from "./components";
 
 // inline App
 // const App = () => {
-//   return <h1>React_BASE React APP</h1>;
+//   return <h1>react_tdd React APP</h1>;
 // };
 
 ReactDOM.render(
