@@ -1,7 +1,17 @@
 import ReactDOM from "react-dom";
 import React from "react";
+// import { App } from "../src/components/App";
+import { App, App2 } from "./components";
 
-const App = () => {
-  return <h1>React_BASE React APP</h1>;
-};
-ReactDOM.render(<App />, document.getElementById("app"));
+// inline App
+// const App = () => {
+//   return <h1>React_BASE React APP</h1>;
+// };
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+    <App2 />
+  </React.StrictMode>,
+  document.getElementById("root")
+);
