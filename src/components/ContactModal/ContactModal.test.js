@@ -1,4 +1,4 @@
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import { ContactModal } from "./";
 import "@testing-library/jest-dom";
 
@@ -17,6 +17,7 @@ test("Initializes empty form", () => {
   const nameInput = screen.queryByPlaceholderText("Name");
   const phoneInput = screen.queryByPlaceholderText("Phone Number");
   const emailInput = screen.queryByPlaceholderText("Email Address");
+  const submitButton = screen.getByText("Submit");
 
   // Assertion -- To Be in the document
   expect(nameInput).toBeInTheDocument();
@@ -27,4 +28,23 @@ test("Initializes empty form", () => {
   expect(nameInput).toHaveValue("");
   expect(phoneInput).toHaveValue("");
   expect(emailInput).toHaveValue("");
+  expect(submitButton).toBeDisabled(); // check if element has disabled property t/f
+});
+
+test("Disables submit button until form is valid", () => {
+  render(<ContactModal />);
+  // Setup, ref the elements
+  const nameInput = screen.queryByPlaceholderText("Name");
+  const phoneInput = screen.queryByPlaceholderText("Phone Number");
+  const emailInput = screen.queryByPlaceholderText("Email Address");
+  const submitButton = screen.getByText("Submit");
+
+  // mock a onChange event
+  fireEvent.change(nameInput, { target: { value: "Port Exe" } });
+  fireEvent.change(phoneInput, { target: { value: "123-456-7890" } });
+  fireEvent.change(emailInput, {
+    target: { value: "portexeofficial@gmail.com" },
+  });
+
+  expect(submitButton).not.toBeDisabled();
 });
