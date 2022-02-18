@@ -31,7 +31,7 @@ test("Initializes empty form", () => {
   expect(submitButton).toBeDisabled(); // check if element has disabled property t/f
 });
 
-test("Disables submit button until form is valid", () => {
+test("Enables submit button once form is valid", () => {
   render(<ContactModal />);
   // Setup, ref the elements
   const nameInput = screen.queryByPlaceholderText("Name");
@@ -43,8 +43,26 @@ test("Disables submit button until form is valid", () => {
   fireEvent.change(nameInput, { target: { value: "Port Exe" } });
   fireEvent.change(phoneInput, { target: { value: "123-456-7890" } });
   fireEvent.change(emailInput, {
-    target: { value: "portexeofficial@gmail.com" },
+    target: { value: "portexeofficial" },
   });
 
   expect(submitButton).not.toBeDisabled();
 });
+
+// test("Disables submit button when fields are invalid", () => {
+//     render(<ContactModal />);
+//     // Setup, ref the elements
+//     const nameInput = screen.queryByPlaceholderText("Name");
+//     const phoneInput = screen.queryByPlaceholderText("Phone Number");
+//     const emailInput = screen.queryByPlaceholderText("Email Address");
+//     const submitButton = screen.getByText("Submit");
+
+//     // mock a onChange event
+//     fireEvent.change(nameInput, { target: { value: "Port Exe" } });
+//     fireEvent.change(phoneInput, { target: { value: "123-456-7890" } });
+//     fireEvent.change(emailInput, {
+//       target: { value: "portexeofficial" },
+//     });
+
+//     expect(submitButton).not.toBeDisabled();
+//   });
