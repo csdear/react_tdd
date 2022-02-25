@@ -83,7 +83,10 @@ export const ContactModal = ({ submit }) => {
           required
           placeholder="Phone Number"
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => {
+            setFormDirty(true);
+            setPhone(e.target.value);
+          }}
         />
         {!!phoneError && (
           <div data-testis="error" className={styles.error}>
@@ -94,7 +97,10 @@ export const ContactModal = ({ submit }) => {
           required
           placeholder="Email Address"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setFormDirty(true);
+            setEmail(e.target.value);
+          }}
         />
         {/* Error messages*/}
         {!!emailError && (
