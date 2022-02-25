@@ -34,6 +34,10 @@ test("Initializes empty form", () => {
   expect(nameInput).toHaveValue("");
   expect(phoneInput).toHaveValue("");
   expect(emailInput).toHaveValue("");
+
+  // Expext on init no error messages shown yet.
+  expect(screen.queryByTestId("error")).not.toBeInTheDocument();
+
   expect(submitButton).toBeDisabled(); // check if element has disabled property t/f
 });
 

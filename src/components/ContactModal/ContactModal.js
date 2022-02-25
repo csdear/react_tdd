@@ -13,9 +13,14 @@ export const ContactModal = ({ submit }) => {
 
   const [isValid, setIsValid] = useState(false);
 
+  const [formDirty, setFormDirty] = useState(false);
+
   // run everytime deps name,phone,email change
   // tests if exists and is regex valid.
   useEffect(() => {
+    if (!formDirty) {
+      return;
+    }
     // when we run first reset all the errors
     setNameError("");
     setPhoneError("");
@@ -47,7 +52,7 @@ export const ContactModal = ({ submit }) => {
     })();
 
     setIsValid(_valid);
-  }, [name, phone, email]);
+  }, [name, phone, email, formDirty]);
 
   return (
     <div className={styles.main}>
@@ -64,16 +69,27 @@ export const ContactModal = ({ submit }) => {
           required
           placeholder="Name"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setFormDirty(true);
+            setName(e.target.value);
+          }}
         />
-        {!!nameError && <div className={styles.error}>{nameError}</div>}
+        {!!nameError && (
+          <div data-testis="error" className={styles.error}>
+            {nameError}
+          </div>
+        )}
         <input
           required
           placeholder="Phone Number"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
-        {!!phoneError && <div className={styles.error}>{phoneError}</div>}
+        {!!phoneError && (
+          <div data-testis="error" className={styles.error}>
+            {phoneError}
+          </div>
+        )}
         <input
           required
           placeholder="Email Address"
@@ -81,7 +97,11 @@ export const ContactModal = ({ submit }) => {
           onChange={(e) => setEmail(e.target.value)}
         />
         {/* Error messages*/}
-        {!!emailError && <div className={styles.error}>{emailError}</div>}
+        {!!emailError && (
+          <div data-testis="error" className={styles.error}>
+            {emailError}
+          </div>
+        )}
         <button disabled={!isValid}>Submit</button>
       </form>
     </div>
