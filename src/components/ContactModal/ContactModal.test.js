@@ -51,10 +51,14 @@ test("Enables submit button once form is valid", () => {
 
   // mock a onChange event
   fireEvent.change(nameInput, { target: { value: "Port Exe" } });
+  expect(screen.queryByTestId("error")).not.toBeInTheDocument();
   fireEvent.change(phoneInput, { target: { value: "123-456-7890" } });
+  expect(screen.queryByTestId("error")).not.toBeInTheDocument();
   fireEvent.change(emailInput, {
     target: { value: "portexeofficial" },
   });
+
+  expect(screen.queryByTestId("error")).not.toBeInTheDocument();
 
   expect(submitButton).not.toBeDisabled();
 });

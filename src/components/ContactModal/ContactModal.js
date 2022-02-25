@@ -11,16 +11,28 @@ export const ContactModal = ({ submit }) => {
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
 
+  // in prod, would be better to use an object, and per object
+  // and it contains properties such as isDirty, isTouched, value, errorMessage etc.
+  // but no reason to go through that for this tutorial says portEXE
+  // replaces `formDirty` (R1)
+  const [nameDirty, setNameDirty] = useState("");
+  const [phoneDirty, setPhoneDirty] = useState("");
+  const [emailDirty, setEmailDirty] = useState("");
+
   const [isValid, setIsValid] = useState(false);
 
-  const [formDirty, setFormDirty] = useState(false);
+  // (R1) Removed, opted to check each one because, you would
+  // still get some that would display a message inappropriated. see minute 1:32, first vid.
+  // const [formDirty, setFormDirty] = useState(false);
+
+  useEffect(() => {}, []);
 
   // run everytime deps name,phone,email change
   // tests if exists and is regex valid.
   useEffect(() => {
-    if (!formDirty) {
-      return;
-    }
+    //(R1) if (!formDirty) {
+    //   return;
+    // }
     // when we run first reset all the errors
     setNameError("");
     setPhoneError("");
@@ -28,22 +40,17 @@ export const ContactModal = ({ submit }) => {
 
     // _valid Arrow IIFE
     // Returns true or false. And sets potential error messages.
-
+    // doesnt care about w||n dirty, just w||n it is valid.
     let _valid = (() => {
       if (!name) {
-        setNameError("Name is required");
         return false;
       } else if (!phone) {
-        setPhoneError("Phone is required");
         return false;
       } else if (!email) {
-        setEmailError("Email is required");
         return false;
       } else if (!/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(phone)) {
-        setPhoneError("Phone is improperly formatted");
         return false;
       } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-        setEmailError("Email is improperly formatted");
         return false;
       } else {
         // if all of the above pass, return true.
@@ -52,7 +59,27 @@ export const ContactModal = ({ submit }) => {
     })();
 
     setIsValid(_valid);
-  }, [name, phone, email, formDirty]);
+  }, [name, phone, email, nameDirty, phoneDirty, emailDirty]);
+  //(R1)
+  //}, [name, phone, email, formDirty]);
+
+  // yuck, hate duplicating logic.
+  // const setErrorMessage = () => {
+  //   if (nameDirty && !name) {
+  //     setNameError("Name is required");
+  //   } else if (phoneDirty && !phone) {
+  //     setPhoneError("Phone is required");
+  //   } else if (emailDirty && !email) {
+  //     setEmailError("Email is required");
+  //   } else if (phoneDirty && !/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(phone)) {
+  //     setPhoneError("Phone is improperly formatted");
+  //   } else if (
+  //     emailDirty &&
+  //     !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)
+  //   ) {
+  //     setEmailError("Email is improperly formatted");
+  //   }
+  // }
 
   return (
     <div className={styles.main}>
@@ -70,7 +97,8 @@ export const ContactModal = ({ submit }) => {
           placeholder="Name"
           value={name}
           onChange={(e) => {
-            setFormDirty(true);
+            // (R1) setFormDirty(true);
+            setNameDirty(true);
             setName(e.target.value);
           }}
         />
@@ -79,12 +107,14 @@ export const ContactModal = ({ submit }) => {
             {nameError}
           </div>
         )}
+        <br />
+        <br />
         <input
           required
           placeholder="Phone Number"
           value={phone}
           onChange={(e) => {
-            setFormDirty(true);
+            setPhoneDirty(true);
             setPhone(e.target.value);
           }}
         />
@@ -93,15 +123,19 @@ export const ContactModal = ({ submit }) => {
             {phoneError}
           </div>
         )}
+        <br />
+        <br />
         <input
           required
           placeholder="Email Address"
           value={email}
           onChange={(e) => {
-            setFormDirty(true);
+            setEmailDirty(true);
             setEmail(e.target.value);
           }}
         />
+        <br />
+        <br />
         {/* Error messages*/}
         {!!emailError && (
           <div data-testis="error" className={styles.error}>

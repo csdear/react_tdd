@@ -10,7 +10,7 @@ export const App = () => {
     <div className={styles.main}>
       <h2>Welcome to react_tdd</h2>
       <Date dateString={date} />
-      <ContactModal onSubmit={() => console.log("Submit!")} />
+      <ContactModal submit={() => console.log("Submit!")} />
     </div>
   );
 };
