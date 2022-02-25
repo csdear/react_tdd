@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 
-export const ContactModal = () => {
+export const ContactModal = ({ submit }) => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -51,11 +51,11 @@ export const ContactModal = () => {
   return (
     <div className={styles.main}>
       <form
-        onSubmit={() => {
+        data-testid="contact-modal-form"
+        onSubmit={(e) => {
           e.preventDefault();
           if (isValid) {
             submit();
-          } else {
           }
         }}
       >
@@ -79,6 +79,7 @@ export const ContactModal = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        {/* Error messages*/}
         {!!emailError && <div className={styles.error}>{emailError}</div>}
         <button disabled={!isValid}>Submit</button>
       </form>

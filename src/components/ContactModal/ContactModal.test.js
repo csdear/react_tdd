@@ -117,3 +117,46 @@ test("Displays error messages for invalid inputs", () => {
   errorDiv = screen.queryByTestId("error");
   expect(errorDiv).not.toBeInTheDocument();
 });
+
+test("Prevents submit function from being called if invalid", () => {
+  const onSubmit = jest.fn();
+  // then pass it in as the submit function.
+  render(<ContactModal submit={onSubmit} />);
+  // Setup, ref the elements
+  const nameInput = screen.getByPlaceholderText("Name");
+  const phoneInput = screen.getByPlaceholderText("Phone Number");
+  const emailInput = screen.getByPlaceholderText("Email Address");
+  const submitButton = screen.getByText("Submit");
+  const form = screen.getByTestId("contact-modal-form");
+
+  // mock a onChange event
+  fireEvent.change(nameInput, { target: { value: "Port Exe" } });
+  fireEvent.change(phoneInput, { target: { value: "123-456-7890" } });
+  // bebug email, it is invalid, so submit() should not be avail.
+  fireEvent.change(emailInput, {
+    target: { value: "portexeofficial" },
+  });
+
+  // is it invalide? expecting to be disabled.
+  expect(submitButton).toBeDisabled();
+
+  // try to submit the form
+  fireEvent.submit(form);
+
+  // and we expect submit not to have been called.
+  expect(onSubmit).not.toHaveBeenCalled();
+
+  // Then we are gonna bless it by fixing the email
+  fireEvent.change(emailInput, {
+    target: { value: "portexeofficial@gmail.com" },
+  });
+
+  // and expect for submit to now NOT be disabled
+  expect(submitButton).not.toBeDisabled();
+
+  // submit the form again
+  fireEvent.submit(form);
+
+  // and expect the function to have been invoked.
+  expect(onSubmit).toHaveBeenCalled();
+});
