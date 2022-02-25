@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
+import React from "react"; //gotta be a better way than adding this to every component.
 
 export const ContactModal = ({ submit }) => {
   const [name, setName] = useState("");
