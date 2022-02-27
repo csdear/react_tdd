@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
-import styles from "./styles.module.css";
-import React from "react"; //gotta be a better way than adding this to every component.
+import { useEffect, useState } from 'react';
+import styles from './styles.module.css';
+import React from 'react'; //gotta be a better way than adding this to every component.
 
-export const ContactModal = ({ submit }) => {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+export const ContactModal = ({ submit, contact }) => {
+  const [name, setName] = useState(contact?.name || '');
+  const [phone, setPhone] = useState(contact?.phone || '');
+  const [email, setEmail] = useState(contact?.email || '');
 
-  const [nameError, setNameError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [nameError, setNameError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [emailError, setEmailError] = useState('');
 
   // in prod, would be better to use an object, and per object
   // and it contains properties such as isDirty, isTouched, value, errorMessage etc.
   // but no reason to go through that for this tutorial says portEXE
   // replaces `formDirty` (R1)
-  const [nameDirty, setNameDirty] = useState("");
-  const [phoneDirty, setPhoneDirty] = useState("");
-  const [emailDirty, setEmailDirty] = useState("");
+  const [nameDirty, setNameDirty] = useState('');
+  const [phoneDirty, setPhoneDirty] = useState('');
+  const [emailDirty, setEmailDirty] = useState('');
 
   const [isValid, setIsValid] = useState(false);
 
@@ -34,9 +34,9 @@ export const ContactModal = ({ submit }) => {
     //   return;
     // }
     // when we run first reset all the errors
-    setNameError("");
-    setPhoneError("");
-    setEmailError("");
+    setNameError('');
+    setPhoneError('');
+    setEmailError('');
 
     // _valid Arrow IIFE
     // Returns true or false. And sets potential error messages.
@@ -50,7 +50,9 @@ export const ContactModal = ({ submit }) => {
         return false;
       } else if (!/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(phone)) {
         return false;
-      } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      } else if (
+        !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)
+      ) {
         return false;
       } else {
         // if all of the above pass, return true.
@@ -58,34 +60,29 @@ export const ContactModal = ({ submit }) => {
       }
     })();
 
+    if (nameDirty && !name) {
+      setNameError('Name is required');
+    } else if (phoneDirty && !phone) {
+      setPhoneError('Phone is required');
+    } else if (emailDirty && !email) {
+      setEmailError('Email is required');
+    } else if (phoneDirty && !/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(phone)) {
+      setPhoneError('Phone is improperly formatted');
+    } else if (
+      emailDirty &&
+      !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)
+    ) {
+      setEmailError('Email is improperly formatted');
+    }
+
     setIsValid(_valid);
   }, [name, phone, email, nameDirty, phoneDirty, emailDirty]);
-  //(R1)
-  //}, [name, phone, email, formDirty]);
-
-  // yuck, hate duplicating logic.
-  // const setErrorMessage = () => {
-  //   if (nameDirty && !name) {
-  //     setNameError("Name is required");
-  //   } else if (phoneDirty && !phone) {
-  //     setPhoneError("Phone is required");
-  //   } else if (emailDirty && !email) {
-  //     setEmailError("Email is required");
-  //   } else if (phoneDirty && !/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(phone)) {
-  //     setPhoneError("Phone is improperly formatted");
-  //   } else if (
-  //     emailDirty &&
-  //     !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)
-  //   ) {
-  //     setEmailError("Email is improperly formatted");
-  //   }
-  // }
 
   return (
     <div className={styles.main}>
       <form
         data-testid="contact-modal-form"
-        onSubmit={(e) => {
+        onSubmit={e => {
           e.preventDefault();
           if (isValid) {
             submit();
@@ -96,7 +93,7 @@ export const ContactModal = ({ submit }) => {
           required
           placeholder="Name"
           value={name}
-          onChange={(e) => {
+          onChange={e => {
             // (R1) setFormDirty(true);
             setNameDirty(true);
             setName(e.target.value);
@@ -113,7 +110,7 @@ export const ContactModal = ({ submit }) => {
           required
           placeholder="Phone Number"
           value={phone}
-          onChange={(e) => {
+          onChange={e => {
             setPhoneDirty(true);
             setPhone(e.target.value);
           }}
@@ -129,7 +126,7 @@ export const ContactModal = ({ submit }) => {
           required
           placeholder="Email Address"
           value={email}
-          onChange={(e) => {
+          onChange={e => {
             setEmailDirty(true);
             setEmail(e.target.value);
           }}
