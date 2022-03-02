@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ContactList } from './ContactList';
 
-test.only('Renders list of contacts', () => {
+test('Renders list of contacts', () => {
   const contacts = [
     {
       id: 0,
@@ -29,4 +29,27 @@ test.only('Renders list of contacts', () => {
   expect(bobRow).toHaveTextContent('Bob');
   expect(bobRow).toHaveTextContent('test321@gmail.com');
   expect(bobRow).toHaveTextContent('123-456-7890');
+});
+
+test.only('Calls the edit function when edit button is clicked', () => {
+  const contacts = [
+    {
+      id: 0,
+      name: 'Joe',
+      email: 'test123@gmail.com',
+      phone: '987-654-3210',
+    },
+  ];
+
+  // fn to be passed into onEditClick prop
+  const editFn = jest.fn();
+
+  render(<ContactList contacts={contacts} onEditClick={editFn} />);
+
+  // a ref to the edit btn setup
+  const editBtnJoe = screen.getByTestId('edit-btn-0');
+
+  fireEvent.click(editBtnJoe);
+
+  expect(editFn).toHaveBeenCalled();
 });

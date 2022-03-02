@@ -13,6 +13,13 @@ export const ContactList = ({
           <div>{c.name}</div>
           <div>{c.phone}</div>
           <div>{c.email}</div>
+
+          <div
+            data-testid={`edit-btn-${c.id}`}
+            onClick={() => onEditClick(c)}
+          >
+            Edit
+          </div>
         </div>
       ))}
     </div>
