@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ContactList } from './ContactList';
 
-test('Renders list of contacts', () => {
+test.only('Renders list of contacts', () => {
   const contacts = [
     {
       id: 0,
