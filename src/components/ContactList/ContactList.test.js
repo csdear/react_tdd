@@ -39,12 +39,6 @@ test.only('Calls the edit function when edit button is clicked', () => {
       email: 'test123@gmail.com',
       phone: '987-654-3210',
     },
-    {
-      id: 1,
-      name: 'Bob',
-      email: 'test321@gmail.com',
-      phone: '123-456-7890',
-    },
   ];
 
   // fn to be passed into onEditClick prop
@@ -57,5 +51,5 @@ test.only('Calls the edit function when edit button is clicked', () => {
 
   fireEvent.click(editBtnJoe);
 
-  expect(editFn).toHaveBeenCalledWith(contacts[1]);
+  expect(editFn).toHaveBeenCalledWith(contacts[0]);
 });
