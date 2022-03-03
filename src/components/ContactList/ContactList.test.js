@@ -31,7 +31,7 @@ test('Renders list of contacts', () => {
   expect(bobRow).toHaveTextContent('123-456-7890');
 });
 
-test.only('Calls the edit function when edit button is clicked', () => {
+test('Calls the edit function when edit button is clicked', () => {
   const contacts = [
     {
       id: 0,
@@ -52,4 +52,29 @@ test.only('Calls the edit function when edit button is clicked', () => {
   fireEvent.click(editBtnJoe);
 
   expect(editFn).toHaveBeenCalledWith(contacts[0]);
+});
+
+test.only('Calls the delete function when the delete button is clicked', () => {
+  const contacts = [
+    {
+      id: 0,
+      name: 'Joe',
+      email: 'test123@gmail.com',
+      phone: '987-654-3210',
+    },
+  ];
+
+  // fn to be passed into onEditClick prop
+  const deleteFn = jest.fn();
+
+  render(
+    <ContactList contacts={contacts} onDeleteClick={deleteFn} />,
+  );
+
+  // a ref to the edit btn setup
+  const deleteBtnJoe = screen.getByTestId('delete-btn-0');
+
+  fireEvent.click(deleteBtnJoe);
+
+  expect(deleteFn).toHaveBeenCalledWith(contacts[0]);
 });

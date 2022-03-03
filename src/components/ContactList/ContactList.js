@@ -20,6 +20,13 @@ export const ContactList = ({
           >
             Edit
           </div>
+
+          <div
+            data-testid={`delete-btn-${c.id}`}
+            onClick={() => onDeleteClick(c)}
+          >
+            Delete
+          </div>
         </div>
       ))}
     </div>
