@@ -54,7 +54,7 @@ test('Calls the edit function when edit button is clicked', () => {
   expect(editFn).toHaveBeenCalledWith(contacts[0]);
 });
 
-test.only('Calls the delete function when the delete button is clicked', () => {
+test('Calls the delete function when the delete button is clicked', () => {
   const contacts = [
     {
       id: 0,
