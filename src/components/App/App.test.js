@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { ContactList } from './App';
 import { App } from './App';
 
-test.only('Shows contact modal when add contact button is clicked', () => {
+test('Shows contact modal when add contact button is clicked', () => {
   render(<App />);
 
   //After app component we expect no modal on the screen.

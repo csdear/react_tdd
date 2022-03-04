@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './styles.module.css';
 import React from 'react'; //gotta be a better way than adding this to every component.
 
-export const ContactModal = ({ submit, contact }) => {
+export const ContactModal = ({ cancel, submit, contact }) => {
   const [name, setName] = useState(contact?.name || '');
   const [phone, setPhone] = useState(contact?.phone || '');
   const [email, setEmail] = useState(contact?.email || '');
@@ -66,7 +66,10 @@ export const ContactModal = ({ submit, contact }) => {
       setPhoneError('Phone is required');
     } else if (emailDirty && !email) {
       setEmailError('Email is required');
-    } else if (phoneDirty && !/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(phone)) {
+    } else if (
+      phoneDirty &&
+      !/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(phone)
+    ) {
       setPhoneError('Phone is improperly formatted');
     } else if (
       emailDirty &&
@@ -140,6 +143,9 @@ export const ContactModal = ({ submit, contact }) => {
           </div>
         )}
         <button disabled={!isValid}>Submit</button>
+        <button type="button" onClick={cancel}>
+          Cancel
+        </button>
       </form>
     </div>
   );
