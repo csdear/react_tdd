@@ -13,7 +13,13 @@ export const App = () => {
       <h2>Welcome to react_tdd</h2>
       <Date dateString={date} />
       {addingContact && (
-        <ContactModal submit={() => console.log('Submit!')} />
+        <ContactModal
+          cancel={() => setAddingContact(false)}
+          submit={c => {
+            console.log(c);
+            setAddingContact(false); // to close modal after submit
+          }}
+        />
       )}
 
       <button

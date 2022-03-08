@@ -88,7 +88,11 @@ export const ContactModal = ({ cancel, submit, contact }) => {
         onSubmit={e => {
           e.preventDefault();
           if (isValid) {
-            submit();
+            submit({
+              name,
+              email,
+              phone,
+            });
           }
         }}
       >

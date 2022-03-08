@@ -75,7 +75,7 @@ describe('Edit Contact', () => {
     expect(submitButton).not.toBeDisabled();
   });
 
-  test.only('Calls cancel when cancel button is clicked', () => {
+  test('Calls cancel when cancel button is clicked', () => {
     const cancelFn = jest.fn();
     render(<ContactModal cancel={cancelFn} />);
 
