@@ -16,7 +16,9 @@ export const App = () => {
         <ContactModal
           cancel={() => setAddingContact(false)}
           submit={c => {
+            // c = contact passed in.
             console.log(c);
+            localStorage.setItem('contacts', c);
             setAddingContact(false); // to close modal after submit
           }}
         />
