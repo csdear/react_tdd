@@ -89,63 +89,76 @@ test('Closes modal automatically after submit', () => {
   ).not.toBeInTheDocument();
 });
 
-test('Properly stores submitted users', () => {
-  Object.defineProperty(window, 'localStorage', {
-    value: {
-      getItem: jest.fn(() => null),
-      setItem: jest.fn(c => c),
-    },
-    writable: true,
+describe('Local Storage Logic Mock', () => {
+  beforeEach(() => {
+    Object.defineProperty(window, 'localStorage', {
+      value: {
+        getItem: jest.fn(() => null),
+        setItem: jest.fn(c => c),
+      },
+      writable: true,
+    });
   });
 
-  const joe = {
-    name: 'Joe',
-    email: 'test123@gmail.com',
-    phone: '123-456-7890',
-  };
+  test('Initializes empty array in localstorage if no contacts are stored yet', () => {
+    render(<App />);
 
-  render(<App />);
-
-  //After app component we expect no modal on the screen.
-  expect(
-    screen.queryByTestId('contact-modal-form'),
-  ).not.toBeInTheDocument();
-
-  const addContactBtn = screen.getByTestId('add-contact-btn');
-
-  fireEvent.click(addContactBtn);
-
-  // now we expect 2BN DOC
-  expect(
-    screen.queryByTestId('contact-modal-form'),
-  ).toBeInTheDocument();
-
-  const nameInput = screen.queryByPlaceholderText('Name');
-  const phoneInput = screen.queryByPlaceholderText('Phone Number');
-  const emailInput = screen.queryByPlaceholderText('Email Address');
-  const form = screen.getByTestId('contact-modal-form');
-
-  // filling out the form
-  fireEvent.change(nameInput, {
-    target: { value: joe.name },
+    expect(window.localStorage.setItem).toHaveBeenCalledWith(
+      'contacts',
+      JSON.stringify([]),
+    );
   });
 
-  fireEvent.change(phoneInput, {
-    target: { value: joe.phone },
+  test('Properly stores submitted users', () => {
+    const joe = {
+      name: 'Joe',
+      email: 'test123@gmail.com',
+      phone: '123-456-7890',
+    };
+
+    render(<App />);
+
+    //After app component we expect no modal on the screen.
+    expect(
+      screen.queryByTestId('contact-modal-form'),
+    ).not.toBeInTheDocument();
+
+    const addContactBtn = screen.getByTestId('add-contact-btn');
+
+    fireEvent.click(addContactBtn);
+
+    // now we expect 2BN DOC
+    expect(
+      screen.queryByTestId('contact-modal-form'),
+    ).toBeInTheDocument();
+
+    const nameInput = screen.queryByPlaceholderText('Name');
+    const phoneInput = screen.queryByPlaceholderText('Phone Number');
+    const emailInput = screen.queryByPlaceholderText('Email Address');
+    const form = screen.getByTestId('contact-modal-form');
+
+    // filling out the form
+    fireEvent.change(nameInput, {
+      target: { value: joe.name },
+    });
+
+    fireEvent.change(phoneInput, {
+      target: { value: joe.phone },
+    });
+
+    fireEvent.change(emailInput, {
+      target: { value: joe.email },
+    });
+
+    fireEvent.submit(form);
+
+    expect(
+      screen.queryByTestId('contact-modal-form'),
+    ).not.toBeInTheDocument();
+
+    expect(window.localStorage.setItem).toHaveBeenCalledWith(
+      'contacts',
+      JSON.stringify([joe]),
+    );
   });
-
-  fireEvent.change(emailInput, {
-    target: { value: joe.email },
-  });
-
-  fireEvent.submit(form);
-
-  // expect(
-  //   screen.queryByTestId('contact-modal-form'),
-  // ).not.toBeInTheDocument();
-
-  expect(window.localStorage.setItem).toHaveBeenCalledWith(
-    'contacts',
-    joe,
-  );
 });

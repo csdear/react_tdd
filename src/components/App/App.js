@@ -5,7 +5,19 @@ import { Date } from '../Date/Date';
 import { ContactModal } from '../ContactModal';
 
 export const App = () => {
+  const [contacts, setContacts] = useState();
   const [addingContact, setAddingContact] = useState(false);
+
+  useEffect(() => {
+    const storedContacts = localStorage.getItem('contacts');
+    // if no contacts create empty contacts array in localStorage and state.
+    if (!storedContacts) {
+      localStorage.setItem('contacts', JSON.stringify([]));
+      setContacts([]);
+    } else {
+      setContacts(JSON.parse(storedContacts));
+    }
+  }, []);
 
   const date = '2020-01-01';
   return (
@@ -17,8 +29,12 @@ export const App = () => {
           cancel={() => setAddingContact(false)}
           submit={c => {
             // c = contact passed in.
-            console.log(c);
-            localStorage.setItem('contacts', c);
+            const newContacts = [...contacts, c]; // contacts plus any new oones
+            localStorage.setItem(
+              'contacts',
+              JSON.stringify(newContacts),
+            ); //set it in localStorage
+            setContacts(newContacts); //set it in state
             setAddingContact(false); // to close modal after submit
           }}
         />
