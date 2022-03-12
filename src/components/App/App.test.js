@@ -64,10 +64,10 @@ test('Closes modal automatically after submit', () => {
     screen.queryByTestId('contact-modal-form'),
   ).toBeInTheDocument();
 
-  const nameInput = screen.queryByPlaceholderText('Name');
-  const phoneInput = screen.queryByPlaceholderText('Phone Number');
-  const emailInput = screen.queryByPlaceholderText('Email Address');
-  const form = screen.getByTestId('contact-modal-form');
+  let nameInput = screen.queryByPlaceholderText('Name');
+  let phoneInput = screen.queryByPlaceholderText('Phone Number');
+  let emailInput = screen.queryByPlaceholderText('Email Address');
+  let form = screen.getByTestId('contact-modal-form');
 
   // filling out the form
   fireEvent.change(nameInput, {
@@ -100,6 +100,7 @@ describe('Local Storage Logic Mock', () => {
     });
   });
 
+  // on init, we expect localstorage to be empty, so we just excpect contacts with an empty array.
   test('Initializes empty array in localstorage if no contacts are stored yet', () => {
     render(<App />);
 
@@ -114,6 +115,12 @@ describe('Local Storage Logic Mock', () => {
       name: 'Joe',
       email: 'test123@gmail.com',
       phone: '123-456-7890',
+    };
+
+    const bob = {
+      name: 'Bob',
+      email: 'test456@gmail.com',
+      phone: '123-456-9999',
     };
 
     render(<App />);
@@ -132,10 +139,10 @@ describe('Local Storage Logic Mock', () => {
       screen.queryByTestId('contact-modal-form'),
     ).toBeInTheDocument();
 
-    const nameInput = screen.queryByPlaceholderText('Name');
-    const phoneInput = screen.queryByPlaceholderText('Phone Number');
-    const emailInput = screen.queryByPlaceholderText('Email Address');
-    const form = screen.getByTestId('contact-modal-form');
+    let nameInput = screen.queryByPlaceholderText('Name');
+    let phoneInput = screen.queryByPlaceholderText('Phone Number');
+    let emailInput = screen.queryByPlaceholderText('Email Address');
+    let form = screen.getByTestId('contact-modal-form');
 
     // filling out the form
     fireEvent.change(nameInput, {
@@ -156,9 +163,47 @@ describe('Local Storage Logic Mock', () => {
       screen.queryByTestId('contact-modal-form'),
     ).not.toBeInTheDocument();
 
+    // Expect local storage to be called with Joe.
     expect(window.localStorage.setItem).toHaveBeenCalledWith(
       'contacts',
       JSON.stringify([joe]),
+    );
+
+    fireEvent.click(addContactBtn);
+
+    expect(
+      screen.getByTestId('contact-modal-form'),
+    ).toBeInTheDocument();
+
+    nameInput = screen.queryByPlaceholderText('Name');
+    phoneInput = screen.queryByPlaceholderText('Phone Number');
+    emailInput = screen.queryByPlaceholderText('Email Address');
+    form = screen.getByTestId('contact-modal-form');
+
+    // filling out the form
+    fireEvent.change(nameInput, {
+      target: { value: bob.name },
+    });
+
+    fireEvent.change(phoneInput, {
+      target: { value: bob.phone },
+    });
+
+    fireEvent.change(emailInput, {
+      target: { value: bob.email },
+    });
+
+    fireEvent.submit(form);
+
+    // since we have submitted the form we should not see the modal.
+    expect(
+      screen.queryByTestId('contact-modal-form'),
+    ).not.toBeInTheDocument();
+
+    // Expect local storage to be called with Joe and bob..
+    expect(window.localStorage.setItem).toHaveBeenCalledWith(
+      'contacts',
+      JSON.stringify([joe, bob]),
     );
   });
 });
