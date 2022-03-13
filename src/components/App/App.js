@@ -8,6 +8,14 @@ export const App = () => {
   const [contacts, setContacts] = useState();
   const [addingContact, setAddingContact] = useState(false);
 
+  const deleteContact = c => {
+    const newContacts = contacts.filter(
+      eachContact => c.id !== eachContact.id,
+    );
+    setContacts(newContacts);
+    localStorage.setItem('contacts', JSON.stringify(newContacts));
+  };
+
   useEffect(() => {
     const storedContacts = localStorage.getItem('contacts');
     // if no contacts create empty contacts array in localStorage and state.
