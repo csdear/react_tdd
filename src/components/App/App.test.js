@@ -16,18 +16,16 @@ const bob = {
 
 const addContact = c => {
   const addContactBtn = screen.getByTestId('add-contact-btn');
+  const modal = screen.getByTestId('contact-modal-form');
 
   fireEvent.click(addContactBtn);
 
   // now we expect 2BN DOC
-  expect(
-    screen.queryByTestId('contact-modal-form'),
-  ).toBeInTheDocument();
+  expect(modal).toBeInTheDocument();
 
   const nameInput = screen.queryByPlaceholderText('Name');
   const phoneInput = screen.queryByPlaceholderText('Phone Number');
   const emailInput = screen.queryByPlaceholderText('Email Address');
-  const form = screen.getByTestId('contact-modal-form');
 
   // filling out the form
   fireEvent.change(nameInput, {
@@ -49,61 +47,48 @@ test('Shows contact modal when add contact button is clicked', () => {
   render(<App />);
 
   //After app component we expect no modal on the screen.
-  expect(
-    screen.queryByTestId('contact-modal-form'),
-  ).not.toBeInTheDocument();
+  expect(modal).not.toBeInTheDocument();
 
   const addContactBtn = screen.getByTestId('add-contact-btn');
 
   fireEvent.click(addContactBtn);
 
   // now we expect 2BN DOC
-  expect(
-    screen.queryByTestId('contact-modal-form'),
-  ).toBeInTheDocument();
+  expect(modal).toBeInTheDocument();
 });
 
 test('Hides contact modal when cancel button is clicked', () => {
   render(<App />);
+  const modal = screen.queryByTestId('contact-modal-form');
 
   //After app component we expect no modal on the screen.
-  expect(
-    screen.queryByTestId('contact-modal-form'),
-  ).not.toBeInTheDocument();
+  expect(modal).not.toBeInTheDocument();
 
   const addContactBtn = screen.getByTestId('add-contact-btn');
 
   fireEvent.click(addContactBtn);
 
   // now we expect 2BN DOC
-  expect(
-    screen.queryByTestId('contact-modal-form'),
-  ).toBeInTheDocument();
+  expect(modal).toBeInTheDocument();
 
   //ref to concel button
   const cancelBtn = screen.getByText('Cancel');
 
   fireEvent.click(cancelBtn);
 
-  expect(
-    screen.queryByTestId('contact-modal-form'),
-  ).not.toBeInTheDocument();
+  expect(modal).not.toBeInTheDocument();
 });
 
 test('Closes modal automatically after submit', () => {
   render(<App />);
-
+  const modal = screen.queryByTestId('contact-modal-form');
   //After app component we expect no modal on the screen.
-  expect(
-    screen.queryByTestId('contact-modal-form'),
-  ).not.toBeInTheDocument();
+  expect(modal).not.toBeInTheDocument();
 
   // ADD CONTACT
   addContact(joe);
 
-  expect(
-    screen.queryByTestId('contact-modal-form'),
-  ).not.toBeInTheDocument();
+  expect(modal).not.toBeInTheDocument();
 });
 
 describe('Local Storage Logic Mock', () => {
@@ -135,17 +120,15 @@ describe('Local Storage Logic Mock', () => {
     // Excised joe and bob here...
     render(<App />);
 
+    const modal = screen.queryByTestId('contact-modal-form');
+
     //After app component we expect no modal on the screen.
-    expect(
-      screen.queryByTestId('contact-modal-form'),
-    ).not.toBeInTheDocument();
+    expect(modal).not.toBeInTheDocument();
 
     // ADD CONTACT
     addContact(joe);
 
-    expect(
-      screen.queryByTestId('contact-modal-form'),
-    ).not.toBeInTheDocument();
+    expect(modal).not.toBeInTheDocument();
 
     // Expect local storage to be called with Joe.
     expect(window.localStorage.setItem).toHaveBeenCalledWith(
@@ -156,9 +139,7 @@ describe('Local Storage Logic Mock', () => {
     addContact(bob);
 
     // since we have submitted the form we should not see the modal.
-    expect(
-      screen.queryByTestId('contact-modal-form'),
-    ).not.toBeInTheDocument();
+    expect(modal).not.toBeInTheDocument();
 
     // Expect local storage to be called with Joe and bob..
     expect(window.localStorage.setItem).toHaveBeenCalledWith(
