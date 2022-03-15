@@ -3,14 +3,12 @@ import { ContactList } from './App';
 import { App } from './App';
 
 const joe = {
-  id: 0,
   name: 'Joe',
   email: 'test123@gmail.com',
   phone: '123-456-7890',
 };
 
 const bob = {
-  id: 1,
   name: 'Bob',
   email: 'test456@gmail.com',
   phone: '123-456-9999',

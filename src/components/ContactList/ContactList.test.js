@@ -4,13 +4,11 @@ import { ContactList } from './ContactList';
 test('Renders list of contacts', () => {
   const contacts = [
     {
-      id: 0,
       name: 'Joe',
       email: 'test123@gmail.com',
       phone: '987-654-3210',
     },
     {
-      id: 1,
       name: 'Bob',
       email: 'test321@gmail.com',
       phone: '123-456-7890',
@@ -34,7 +32,6 @@ test('Renders list of contacts', () => {
 test('Calls the edit function when edit button is clicked', () => {
   const contacts = [
     {
-      id: 0,
       name: 'Joe',
       email: 'test123@gmail.com',
       phone: '987-654-3210',
@@ -57,7 +54,6 @@ test('Calls the edit function when edit button is clicked', () => {
 test('Calls the delete function when the delete button is clicked', () => {
   const contacts = [
     {
-      id: 0,
       name: 'Joe',
       email: 'test123@gmail.com',
       phone: '987-654-3210',

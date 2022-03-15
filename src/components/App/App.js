@@ -8,10 +8,8 @@ export const App = () => {
   const [contacts, setContacts] = useState();
   const [addingContact, setAddingContact] = useState(false);
 
-  const deleteContact = c => {
-    const newContacts = contacts.filter(
-      eachContact => c.id !== eachContact.id,
-    );
+  const deleteContact = contactIndex => {
+    const newContacts = contacts.filter((_, i) => i !== contactIndex);
     setContacts(newContacts);
     localStorage.setItem('contacts', JSON.stringify(newContacts));
   };
