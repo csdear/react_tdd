@@ -23,7 +23,7 @@ export const ContactList = ({
 
           <div
             data-testid={`delete-btn-${index}`}
-            onClick={() => onDeleteClick(c)}
+            onClick={() => onDeleteClick(index)}
           >
             Delete
           </div>

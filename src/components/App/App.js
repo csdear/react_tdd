@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react'; // dunno why but had to add else re
 import { App2 } from '../App2/App2';
 import { Date } from '../Date/Date';
 import { ContactModal } from '../ContactModal';
+import { ContactList } from '../ContactList/ContactList';
 
 export const App = () => {
-  const [contacts, setContacts] = useState();
+  const [contacts, setContacts] = useState([]);
   const [addingContact, setAddingContact] = useState(false);
 
   const deleteContact = contactIndex => {
@@ -52,6 +53,14 @@ export const App = () => {
       >
         Add Contact
       </button>
+
+      {!!contacts && (
+        <ContactList
+          contacts={contacts}
+          onDeleteClick={deleteContact}
+          onEditClick={c => console.log('Edit')}
+        />
+      )}
     </div>
   );
 };

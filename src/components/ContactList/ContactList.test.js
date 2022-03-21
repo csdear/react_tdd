@@ -72,5 +72,8 @@ test('Calls the delete function when the delete button is clicked', () => {
 
   fireEvent.click(deleteBtnJoe);
 
-  expect(deleteFn).toHaveBeenCalledWith(contacts[0]);
+  // this is incorrect
+  // expect(deleteFn).toHaveBeenCalledWith(contacts[0]);
+  // Should be literally the number zero.
+  expect(deleteFn).toHaveBeenCalledWith(0);
 });
