@@ -16,7 +16,7 @@ export const ContactList = ({
 
           <div
             data-testid={`edit-btn-${index}`}
-            onClick={() => onEditClick(c)}
+            onClick={() => onEditClick(index)}
           >
             Edit
           </div>

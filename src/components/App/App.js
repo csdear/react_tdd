@@ -9,6 +9,18 @@ export const App = () => {
   const [contacts, setContacts] = useState([]);
   const [addingContact, setAddingContact] = useState(false);
 
+  const [editContact, setEditContact] = useState(); // init as undefined.
+
+  //when we click a button for edit contact...
+  // remember instead of using an Id, we are using the index, contactIndex
+  // as our source of referential truth in this project.
+  // the state for editContact will be the contact we are editing.
+  // might not need though, MAGPIE32236:36, commenting out for now
+  // const editContact = contactIndex => {
+  // call update Fn, setting contact to use by its index.
+  // setEditContact(contacts[contactIndex]);
+  // }
+
   const deleteContact = contactIndex => {
     const newContacts = contacts.filter((_, i) => i !== contactIndex);
     setContacts(newContacts);
@@ -47,6 +59,31 @@ export const App = () => {
         />
       )}
 
+      {typeof editContact === 'number' && (
+        <ContactModal
+          contact={contacts[editContact]}
+          cancel={() => setEditContact(undefined)}
+          submit={c => {
+            const newContacts = contacts.map((contact, index) => {
+              console.log(c);
+              if (index === editContact) {
+                return c;
+              } else {
+                return contact;
+              }
+            });
+
+            setContacts(newContacts);
+
+            localStorage.setItem(
+              'contacts',
+              JSON.stringify(newContacts),
+            );
+            setEditContact(undefined); // to close modal after submit
+          }}
+        />
+      )}
+
       <button
         data-testid="add-contact-btn"
         onClick={() => setAddingContact(true)}
@@ -54,13 +91,11 @@ export const App = () => {
         Add Contact
       </button>
 
-      {!!contacts && (
-        <ContactList
-          contacts={contacts}
-          onDeleteClick={deleteContact}
-          onEditClick={c => console.log('Edit')}
-        />
-      )}
+      <ContactList
+        contacts={contacts}
+        onDeleteClick={deleteContact}
+        onEditClick={contactIndex => setEditContact(contactIndex)}
+      />
     </div>
   );
 };

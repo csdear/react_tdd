@@ -48,7 +48,8 @@ test('Calls the edit function when edit button is clicked', () => {
 
   fireEvent.click(editBtnJoe);
 
-  expect(editFn).toHaveBeenCalledWith(contacts[0]);
+  // now called with the index, not contacts[0]
+  expect(editFn).toHaveBeenCalledWith(0);
 });
 
 test('Calls the delete function when the delete button is clicked', () => {

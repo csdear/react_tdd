@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './styles.module.css';
 import React from 'react'; //gotta be a better way than adding this to every component.
+import { Input } from '../Input/Input.js';
 
 export const ContactModal = ({ cancel, submit, contact }) => {
   const [name, setName] = useState(contact?.name || '');
@@ -96,56 +97,36 @@ export const ContactModal = ({ cancel, submit, contact }) => {
           }
         }}
       >
-        <input
-          required
-          placeholder="Name"
+        <Input
           value={name}
-          onChange={e => {
-            // (R1) setFormDirty(true);
+          label="Name"
+          errorMessage={nameError}
+          onValueUpdated={val => {
             setNameDirty(true);
-            setName(e.target.value);
+            setName(val);
           }}
         />
-        {!!nameError && (
-          <div data-testis="error" className={styles.error}>
-            {nameError}
-          </div>
-        )}
-        <br />
-        <br />
-        <input
-          required
-          placeholder="Phone Number"
+
+        <Input
           value={phone}
-          onChange={e => {
+          label="Phone Number"
+          errorMessage={phoneError}
+          onValueUpdated={val => {
             setPhoneDirty(true);
-            setPhone(e.target.value);
+            setPhone(val);
           }}
         />
-        {!!phoneError && (
-          <div data-testis="error" className={styles.error}>
-            {phoneError}
-          </div>
-        )}
-        <br />
-        <br />
-        <input
-          required
-          placeholder="Email Address"
+
+        <Input
           value={email}
-          onChange={e => {
+          label="Email Address"
+          errorMessage={emailError}
+          onValueUpdated={val => {
             setEmailDirty(true);
-            setEmail(e.target.value);
+            setEmail(val);
           }}
         />
-        <br />
-        <br />
-        {/* Error messages*/}
-        {!!emailError && (
-          <div data-testis="error" className={styles.error}>
-            {emailError}
-          </div>
-        )}
+
         <button disabled={!isValid}>Submit</button>
         <button type="button" onClick={cancel}>
           Cancel

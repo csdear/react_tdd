@@ -41,7 +41,7 @@ const addContact = c => {
     target: { value: c.email },
   });
 
-  fireEvent.submit(form);
+  fireEvent.submit(screen.queryByTestId('contact-modal-form'));
 };
 
 test('Shows contact modal when add contact button is clicked', () => {
@@ -113,6 +113,50 @@ describe('Local Storage Logic Mock', () => {
       },
       writable: true,
     });
+  });
+
+  test('Properly manages the edit scenario for the contact modal', () => {
+    render(<App />);
+    addContact(joe);
+
+    const editBtn = screen.getByTestId('edit-btn-0');
+    fireEvent.click(editBtn);
+    // after click we would expect to see contact modal
+    expect(
+      screen.getByTestId('contact-modal-form'),
+    ).toBeInTheDocument();
+    // how can we test a component has been given the props we expect?
+
+    // const nameInput = screen.getByTestId('name-input');
+    const nameInput = screen.getByPlaceholderText('Name');
+    expect(nameInput).toHaveValue('Joe');
+
+    // Test changing the contact's name...
+
+    // FAILURE HERE, WASNT UPDATING THE NAME AS EXPECTED !!!
+    // BECAUSE THERE IS NO PLACEHOLDER TEXT (6 lines above) at that/this point anymore.
+    // we had to got to ContactModal and add a data test id for name-input instead.
+    fireEvent.change(nameInput, {
+      target: {
+        value: 'Port Exe',
+      },
+    });
+    expect(nameInput).toHaveValue('Port Exe');
+
+    //...click the submit button
+    fireEvent.click(screen.getByText('Submit'));
+
+    //... then expectLocalStorage to get called with a new object
+    // all the same as joe (...joe), except for the name
+    expect(window.localStorage.setItem).toHaveBeenCalledWith(
+      'contacts',
+      JSON.stringify([
+        {
+          ...joe,
+          name: 'Port Exe',
+        },
+      ]),
+    );
   });
 
   test('Properly manages the deletion of contacts', () => {
