@@ -85,6 +85,7 @@ export const App = () => {
       )}
 
       <button
+        className={styles.addContactBtn}
         data-testid="add-contact-btn"
         onClick={() => setAddingContact(true)}
       >

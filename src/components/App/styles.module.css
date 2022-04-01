@@ -1,16 +1,30 @@
 .main {
-  background: linear-gradient(
+
+
+  /*background: linear-gradient(
     90deg,
     rgba(24, 161, 203, 1) 0%,
     rgba(255, 255, 255, 1) 35%,
     rgba(255, 255, 255, 1) 65%,
     rgba(253, 172, 0, 1) 100%
-  );
+  );*/
 
-  width: 100vw;
+  /* width: 100vw;
   height: 25vh;
+  */
   /* display: flex;
   align-items: center; */
   /* flex-direction: column; */
   /* justify-content: space-between; */
+}
+
+.addContactBtn {
+  color: white;
+  background-color: #343F56;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 5px;
+  border-radius: 5px;
+  width: 150px;
 }
