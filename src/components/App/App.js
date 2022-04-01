@@ -40,57 +40,64 @@ export const App = () => {
 
   const date = '2020-01-01';
   return (
-    <div className={styles.main}>
-      <h2>Welcome to react_tdd</h2>
+    <>
+    {addingContact && (
+      <div className={styles.modal}>
+      <ContactModal
+        cancel={() => setAddingContact(false)}
+        submit={c => {
+          // c = contact passed in.
+          const newContacts = [...contacts, c]; // contacts plus any new oones
+          localStorage.setItem(
+            'contacts',
+            JSON.stringify(newContacts),
+          ); //set it in localStorage
+          setContacts(newContacts); //set it in state
+          setAddingContact(false); // to close modal after submit
+        }}
+      />
+      </div>
+    )}
+
+    {typeof editContact === 'number' && (
+      <div className={styles.modal}>
+      <ContactModal
+        contact={contacts[editContact]}
+        cancel={() => setEditContact(undefined)}
+        submit={c => {
+          const newContacts = contacts.map((contact, index) => {
+            console.log(c);
+            if (index === editContact) {
+              return c;
+            } else {
+              return contact;
+            }
+          });
+
+          setContacts(newContacts);
+
+          localStorage.setItem(
+            'contacts',
+            JSON.stringify(newContacts),
+          );
+          setEditContact(undefined); // to close modal after submit
+        }}
+      />
+      </div>
+      )}
+
+      <div className={styles.main}>
+      <h1>Contact List</h1>
       <Date dateString={date} />
-      {addingContact && (
-        <ContactModal
-          cancel={() => setAddingContact(false)}
-          submit={c => {
-            // c = contact passed in.
-            const newContacts = [...contacts, c]; // contacts plus any new oones
-            localStorage.setItem(
-              'contacts',
-              JSON.stringify(newContacts),
-            ); //set it in localStorage
-            setContacts(newContacts); //set it in state
-            setAddingContact(false); // to close modal after submit
-          }}
-        />
-      )}
-
-      {typeof editContact === 'number' && (
-        <ContactModal
-          contact={contacts[editContact]}
-          cancel={() => setEditContact(undefined)}
-          submit={c => {
-            const newContacts = contacts.map((contact, index) => {
-              console.log(c);
-              if (index === editContact) {
-                return c;
-              } else {
-                return contact;
-              }
-            });
-
-            setContacts(newContacts);
-
-            localStorage.setItem(
-              'contacts',
-              JSON.stringify(newContacts),
-            );
-            setEditContact(undefined); // to close modal after submit
-          }}
-        />
-      )}
-
-      <button
-        className={styles.addContactBtn}
-        data-testid="add-contact-btn"
-        onClick={() => setAddingContact(true)}
-      >
-        Add Contact
-      </button>
+      <div className={styles.actions}>
+        <button
+          className={styles.addContactBtn}
+          data-testid="add-contact-btn"
+          onClick={() => setAddingContact(true)}
+        >
+          Add Contact
+        </button>
+      </div>
 
       <ContactList
         contacts={contacts}
@@ -98,5 +105,6 @@ export const App = () => {
         onEditClick={contactIndex => setEditContact(contactIndex)}
       />
     </div>
-  );
+  </>
+);
 };

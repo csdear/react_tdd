@@ -1,6 +1,6 @@
 
 .main {
-    width: 650px; /* make sure you are accounting for the sum of all widths within including margins */
+    /* width: 650px; make sure you are accounting for the sum of all widths within including margins */
     display: flex;
     flex-direction: column;
 }
@@ -18,6 +18,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.name,
+.phone,
+.email {
+    background-color: #e4e4e4;
 }
 
 .name {

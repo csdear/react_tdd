@@ -83,55 +83,62 @@ export const ContactModal = ({ cancel, submit, contact }) => {
   }, [name, phone, email, nameDirty, phoneDirty, emailDirty]);
 
   return (
+    <>
     <div className={styles.main}>
-      <form
-        data-testid="contact-modal-form"
-        onSubmit={e => {
-          e.preventDefault();
-          if (isValid) {
-            submit({
-              name,
-              email,
-              phone,
-            });
-          }
+    <form
+      data-testid="contact-modal-form"
+      onSubmit={e => {
+        e.preventDefault();
+        if (isValid) {
+          submit({
+            name,
+            email,
+            phone,
+          });
+        }
+      }}
+    >
+      <h2>Contact Info:</h2>
+      <Input
+        value={name}
+        label="Name"
+        errorMessage={nameError}
+        onValueUpdated={val => {
+          setNameDirty(true);
+          setName(val);
         }}
-      >
-        <Input
-          value={name}
-          label="Name"
-          errorMessage={nameError}
-          onValueUpdated={val => {
-            setNameDirty(true);
-            setName(val);
-          }}
-        />
+      />
 
-        <Input
-          value={phone}
-          label="Phone Number"
-          errorMessage={phoneError}
-          onValueUpdated={val => {
-            setPhoneDirty(true);
-            setPhone(val);
-          }}
-        />
+      <Input
+        value={phone}
+        label="Phone Number"
+        errorMessage={phoneError}
+        onValueUpdated={val => {
+          setPhoneDirty(true);
+          setPhone(val);
+        }}
+      />
 
-        <Input
-          value={email}
-          label="Email Address"
-          errorMessage={emailError}
-          onValueUpdated={val => {
-            setEmailDirty(true);
-            setEmail(val);
-          }}
-        />
-
-        <button disabled={!isValid}>Submit</button>
-        <button type="button" onClick={cancel}>
-          Cancel
+      <Input
+        value={email}
+        label="Email Address"
+        errorMessage={emailError}
+        onValueUpdated={val => {
+          setEmailDirty(true);
+          setEmail(val);
+        }}
+      />
+     <div className={styles.actions}>
+        <button disabled={!isValid} className={styles.submit}>Submit</button>
+        <button type="button" onClick={cancel} className={styles.cancel}>
+            Cancel
         </button>
-      </form>
-    </div>
+     </div>
+
+    </form>
+  </div>
+
+  <div className={styles.backDrop}></div>
+    </>
   );
 };

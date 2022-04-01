@@ -1,2 +1,74 @@
 .main {
+    z-index: 99;
+    position: relative;
+    display: flex;
+}
+
+.main form {
+    /* the "box" around enclosing the form fields.
+      we pad it out 25px all the way around, give it  a whiteish
+      color, some roundy corners and a little box shadow for depth*/
+    padding: 25px;
+    background-color: #f8f5f1;
+    border-radius: 8px;
+    box-shadow: 0px 0px 3px black;
+}
+
+.main form h2 {
+    font-size: 18px;
+    margin-top: 0px;
+}
+
+.main form input {
+    /* input Name Phone Email style. */
+    padding: 7px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 1px grey;
+    margin-bottom: 10px;
+}
+
+.actions {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+.actions button {
+    flex-basis: 50%;
+    padding: 7px;
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit {
+    /* margin-right: 5px; */
+    background-color: #343f56;
+}
+
+/* Separate styling for the submit disabled state */
+.submit:disabled {
+    color: gray;
+    background-color: darkgray;
+    cursor: not-allowed;
+}
+
+.cancel {
+    /* margin-left: 5px; */
+    background-color: #e9896a;
+}
+
+.backdrop {
+    z-index: 9;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 8);
 }
