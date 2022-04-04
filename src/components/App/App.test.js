@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { ContactList } from './App';
+// import { ContactList } from './App';
 import { App } from './App';
+import React from 'react';
 
 const joe = {
   name: 'Joe',
@@ -104,6 +105,7 @@ test('Closes modal automatically after submit', () => {
   ).not.toBeInTheDocument();
 });
 
+// Mocking window.localstorage here.
 describe('Local Storage Logic Mock', () => {
   beforeEach(() => {
     Object.defineProperty(window, 'localStorage', {
@@ -160,6 +162,12 @@ describe('Local Storage Logic Mock', () => {
   });
 
   test('Properly manages the deletion of contacts', () => {
+    // Mocking window.confirm so that the  function always returns true
+    Object.defineProperty(window, 'confirm', {
+      value: jest.fn(() => true),
+      writable: true,
+    });
+
     render(<App />);
     // rendering App, adding joe, adding bob, verifying they are in
     // the localstorage. Then click delete button with joe, and expect

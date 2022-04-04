@@ -1,5 +1,7 @@
 import styles from './styles.module.css';
+import React from 'react';
 
+/* eslint-disable react/prop-types */
 export const Input = ({
   value,
   label,
@@ -8,7 +10,7 @@ export const Input = ({
   required = true,
 }) => {
   return (
-    <div>
+    <div className={styles.main}>
       <input
         value={value}
         placeholder={label}

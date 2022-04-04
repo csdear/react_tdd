@@ -3,7 +3,10 @@ import styles from './styles.module.css';
 import React from 'react'; //gotta be a better way than adding this to every component.
 import { Input } from '../Input/Input.js';
 
+/* eslint-disable react/prop-types */
 export const ContactModal = ({ cancel, submit, contact }) => {
+
+
   const [name, setName] = useState(contact?.name || '');
   const [phone, setPhone] = useState(contact?.phone || '');
   const [email, setEmail] = useState(contact?.email || '');

@@ -1,3 +1,5 @@
+import React from 'react';
+/* eslint-disable react/prop-types */
 import styles from './styles.module.css';
 
 // prop for contacts, array, and two callback functions.

@@ -2,10 +2,11 @@ import {
   render,
   screen,
   fireEvent,
-  getByText,
+  // getByText,
 } from '@testing-library/react';
 import { ContactModal } from './';
-import '@testing-library/jest-dom';
+import React from 'react'
+
 
 // no longer needed they say, commenting out.
 // cleanup,
@@ -23,29 +24,25 @@ describe('Edit Contact', () => {
       <ContactModal
         contact={{
           name: 'Joe',
-          phone: '205-547-5444',
+          phone: '987-654-3210',
           email: 'test@gmail.com',
         }}
       />,
     );
 
-    // Setup. Ref the elements by some factor
-    const nameInput = screen.queryByPlaceholderText('Name');
-    const phoneInput = screen.queryByPlaceholderText('Phone Number');
-    const emailInput = screen.queryByPlaceholderText('Email Address');
+    const nameInput = screen.getByPlaceholderText('Name');
+    const phoneInput = screen.getByPlaceholderText('Phone Number');
+    const emailInput = screen.getByPlaceholderText('Email Address');
     const submitButton = screen.getByText('Submit');
 
-    // Assertion -- To Be in the document
-    expect(nameInput).toBeInTheDocument('Joe');
-    expect(phoneInput).toBeInTheDocument('205-547-5444');
-    expect(emailInput).toBeInTheDocument('test@gmail.com');
+    expect(nameInput).toBeInTheDocument();
+    expect(phoneInput).toBeInTheDocument();
+    expect(emailInput).toBeInTheDocument();
 
-    // Assertion -- to have init value of ''
-    expect(nameInput).toHaveValue('');
-    expect(phoneInput).toHaveValue('');
-    expect(emailInput).toHaveValue('');
+    expect(nameInput).toHaveValue('Joe');
+    expect(phoneInput).toHaveValue('987-654-3210');
+    expect(emailInput).toHaveValue('test@gmail.com');
 
-    // Expext on init no error messages shown yet.
     expect(screen.queryByTestId('error')).not.toBeInTheDocument();
 
     expect(submitButton).not.toBeDisabled();
@@ -53,21 +50,24 @@ describe('Edit Contact', () => {
 
   test('Enables submit button once form is valid', () => {
     render(<ContactModal />);
-    // Setup, ref the elements
-    const nameInput = screen.queryByPlaceholderText('Name');
-    const phoneInput = screen.queryByPlaceholderText('Phone Number');
-    const emailInput = screen.queryByPlaceholderText('Email Address');
+
+    const nameInput = screen.getByPlaceholderText('Name');
+    const phoneInput = screen.getByPlaceholderText('Phone Number');
+    const emailInput = screen.getByPlaceholderText('Email Address');
     const submitButton = screen.getByText('Submit');
 
-    // mock a onChange event
     fireEvent.change(nameInput, { target: { value: 'Port Exe' } });
+
     expect(screen.queryByTestId('error')).not.toBeInTheDocument();
+
     fireEvent.change(phoneInput, {
       target: { value: '123-456-7890' },
     });
+
     expect(screen.queryByTestId('error')).not.toBeInTheDocument();
+
     fireEvent.change(emailInput, {
-      target: { value: 'portexeofficial' },
+      target: { value: 'portexeofficial@gmail.com' },
     });
 
     expect(screen.queryByTestId('error')).not.toBeInTheDocument();
@@ -221,30 +221,6 @@ describe('Create Contact', () => {
     expect(screen.queryByTestId('error')).not.toBeInTheDocument();
 
     expect(submitButton).toBeDisabled(); // check if element has disabled property t/f
-  });
-
-  test('Enables submit button once form is valid', () => {
-    render(<ContactModal />);
-    // Setup, ref the elements
-    const nameInput = screen.queryByPlaceholderText('Name');
-    const phoneInput = screen.queryByPlaceholderText('Phone Number');
-    const emailInput = screen.queryByPlaceholderText('Email Address');
-    const submitButton = screen.getByText('Submit');
-
-    // mock a onChange event
-    fireEvent.change(nameInput, { target: { value: 'Port Exe' } });
-    expect(screen.queryByTestId('error')).not.toBeInTheDocument();
-    fireEvent.change(phoneInput, {
-      target: { value: '123-456-7890' },
-    });
-    expect(screen.queryByTestId('error')).not.toBeInTheDocument();
-    fireEvent.change(emailInput, {
-      target: { value: 'portexeofficial' },
-    });
-
-    expect(screen.queryByTestId('error')).not.toBeInTheDocument();
-
-    expect(submitButton).not.toBeDisabled();
   });
 
   test('Disables submit button when fields are invalid', () => {

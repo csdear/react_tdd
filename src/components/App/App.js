@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
-import { useEffect, useState } from 'react'; // dunno why but had to add else react is not defined..
-import { App2 } from '../App2/App2';
+import React, { useEffect, useState } from 'react'; // dunno why but had to add else react is not defined..
+// import { App2 } from '../App2/App2';
 import { Date } from '../Date/Date';
 import { ContactModal } from '../ContactModal';
 import { ContactList } from '../ContactList/ContactList';
@@ -22,9 +22,11 @@ export const App = () => {
   // }
 
   const deleteContact = contactIndex => {
-    const newContacts = contacts.filter((_, i) => i !== contactIndex);
-    setContacts(newContacts);
-    localStorage.setItem('contacts', JSON.stringify(newContacts));
+    if (window.confirm('Are you sure?')) {
+      const newContacts = contacts.filter((_, i) => i !== contactIndex);
+      setContacts(newContacts);
+      localStorage.setItem('contacts', JSON.stringify(newContacts));
+    }
   };
 
   useEffect(() => {
@@ -66,7 +68,6 @@ export const App = () => {
         cancel={() => setEditContact(undefined)}
         submit={c => {
           const newContacts = contacts.map((contact, index) => {
-            console.log(c);
             if (index === editContact) {
               return c;
             } else {
